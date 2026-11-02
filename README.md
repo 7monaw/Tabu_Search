@@ -1,2 +1,2 @@
 # Tabu_Search
-for tabu search
+Non-preemptive precedence tardiness tabu search
