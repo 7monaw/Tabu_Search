@@ -10,8 +10,9 @@
 |---|---|
 | `tabu_search.py` | The algorithm: `preprocessing` (adjacency lists, job data), `initialise_schedule` (valid start via topological sort), `tardiness`, `check_precedence` (validity and penalised cost), `repair_schedule`, `tabu(...)` with `method='rejection'` or `'penalty'`, and the Appendix A data. |
 | `test_tabu.py` | Sanity checks for the code against the lecture example and Tutorial 3. |
-| `experiments.py` | Questions 3.1–3.3 + writes `outputs/`. |
-| `outputs/` | Results of the experiments. |
+| `experiments.py` | Questions 3.1–3.3 + writes `outputs/` and `results/`. |
+| `outputs/` and `results/` | Results of the experiments. Format: indented "cand" lines = neighbours examined in cyclic order (swap, schedule, cost, delta = cost(current) - cost(neighbour), tabu?, decision); "k=" lines = accepted solution x_k with its cost, validity, best feasible total tardiness so far (g_best) and tabu list T.
+For penalty runs "cost" is the penalised cost g'(S); g_best is always plain total tardiness.|
 
 
 ## Usage
