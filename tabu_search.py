@@ -103,7 +103,7 @@ def check_precedence(x: List[int], prec: List[Tuple[int, int]], lmbda: float,
         Inputs:
             x: current job schedule
             prec: a list of all precedences (u, v) where u is the predecessor of v
-            lmbda: penalty weight parameter (omega)
+            lmbda: penalty weight parameter 
             job_info: containing processing times and due dates per job.
             method: choose either 'rejection' for rejection method or 'penalty' for penalty function method.
 
@@ -149,7 +149,7 @@ def tabu(p: List[int], d: List[int], prec: List[Tuple[int, int]], K: int, gamma:
             prec: a list of all precedences (u, v) where u is the predecessor of v (jobs numbered 1..n)
             K: maximum iterations (one iteration = one accepted move, producing x_1 ... x_K)
             gamma: threshold
-            lmbda: penalty weight (omega), only used by the penalty method
+            lmbda: penalty weight, only used by the penalty method
             L: tabu list length
             x0: initial schedule (if given)
             method: choose either 'rejection' for rejection method or 'penalty' for penalty function method.
@@ -168,7 +168,7 @@ def tabu(p: List[int], d: List[int], prec: List[Tuple[int, int]], K: int, gamma:
         x0 = initialise_schedule(num_jobs, pred, suc)
     x0 = list(x0)  
 
-    # GRETA: def cost function actually minimised by the search: rejection -> g(S) = total tardiness; penalty -> g'(S) = g(S) + omega * sum max(0, h_k).
+    # GRETA: def cost function actually minimised by the search: rejection -> g(S) = total tardiness; penalty -> g'(S) = g(S) + lambda * sum max(0, h_k).
     def cost_of(x):
         valid, pen_cost = check_precedence(x, prec, lmbda, job_info, method)
         return valid, (pen_cost if method == 'penalty' else tardiness(x, job_info))

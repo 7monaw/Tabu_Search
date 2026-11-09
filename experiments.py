@@ -21,8 +21,8 @@ for folder in (OUT, RES):
 
 # runs in results/ 
 EXAMPLES_32 = [(0, 20), (100, 1), (10, 100)]   # (gamma, L) traces used in the 3.2 discussion
-PLOT_OMEGAS = (10, 20, 50)                     # omegas shown in the 3.3 plot
-EDD_OMEGA = 25                                 # omega reported for the EDD start
+PLOT_LAMBDAS = (10, 20, 50)                     # lambdas shown in the 3.3 plot
+EDD_LAMBDA = 25                                 # lambda reported for the EDD start
 _, _, job_info = preprocessing(len(p), prec, p, d)
 fmt = lambda x: ",".join(map(str, x))
 
@@ -38,7 +38,7 @@ def run(fname=None, **kw):
     with open(path, "w") as fh, contextlib.redirect_stdout(fh):
         # header so every trace file says which run it is
         print(f"# method={kw.get('method', 'rejection')}  K={kw.get('K', 1000)}  gamma={kw['gamma']}  "
-              f"L={kw['L']}  omega={kw.get('lmbda', 0) if kw.get('method') == 'penalty' else '-'}  "
+              f"L={kw['L']}  lambda={kw.get('lmbda', 0) if kw.get('method') == 'penalty' else '-'}  "
               f"x0=[{fmt(kw['x0'])}]")
         return tabu(p, d, prec, kw.get("K", 1000), kw["gamma"], kw.get("lmbda", 0), kw["L"],
                     x0=kw["x0"], method=kw.get("method", "rejection"), verbose=True)
@@ -75,10 +75,10 @@ run(f"3_2_best_gamma{bg}_L{bL}.txt", gamma=bg, L=bL, x0=x0)   # copy of the best
 
 # 3.3
 out("\n=== 3.3 Penalty method, L=20, gamma=10, K=1000, forced x0")
-omegas = [0.5, 1, 2, 5, 10, 12, 15, 18, 20, 25, 50, 100]; pen = {}
-out(f"{'omega':>7} {'best feasible T':>16} {'% iters infeasible':>19} {'iters run':>10}")
-for om in omegas:
-    xb, gb, hist = run(f"3_3_penalty_omega{om}.txt", gamma=10, L=20, x0=x0, method="penalty", lmbda=om)
+lambdas = [0.5, 1, 2, 5, 10, 12, 15, 18, 20, 25, 50, 100]; pen = {}
+out(f"{'lambda':>7} {'best feasible T':>16} {'% iters infeasible':>19} {'iters run':>10}")
+for om in lambdas:
+    xb, gb, hist = run(f"3_3_penalty_lambda{om}.txt", gamma=10, L=20, x0=x0, method="penalty", lmbda=om)
     pen[om] = hist
     frac = sum(not h['valid'] for h in hist[1:]) / max(1, len(hist) - 1)
     out(f"{om:>7} {gb:>16} {100*frac:>18.1f}% {len(hist)-1:>10}")
@@ -86,8 +86,8 @@ for om in omegas:
 plt.figure(figsize=(7, 4.2))
 curve = lambda hist: ([h['k'] for h in hist], [h['g_best'] for h in hist])
 plt.step(*curve(res31[1000]), where="post", label="rejection", lw=5, alpha=.35, color="k")
-for om in PLOT_OMEGAS:
-    plt.step(*curve(pen[om]), where="post", label=f"penalty, ω={om}", ls="--" if om == PLOT_OMEGAS[-1] else "-")
+for om in PLOT_LAMBDAS:
+    plt.step(*curve(pen[om]), where="post", label=f"penalty, λ={om}", ls="--" if om == PLOT_LAMBDAS[-1] else "-")
 plt.xlabel("iteration k"); plt.ylabel("best total tardiness (feasible schedules)")
 plt.title("Tabu search, L=20, γ=10, K=1000, same x0"); plt.grid(alpha=.3); plt.legend(); plt.tight_layout()
 plt.savefig(os.path.join(OUT, "3_3_convergence.png"), dpi=150)
@@ -95,11 +95,11 @@ plt.savefig(os.path.join(OUT, "3_3_convergence.png"), dpi=150)
 edd = sorted(range(1, len(d) + 1), key=lambda j: (d[j-1], j))   # EDD, ties -> lowest index
 out(f"\nEDD x0 = [{fmt(edd)}], g = {tardiness(edd, job_info)}, "
     f"feasible = {check_precedence(edd, prec, 0, job_info)[0]}")
-for om in omegas:
-    xb, gb, hist = run(f"3_3_penalty_EDD_omega{om}.txt", gamma=10, L=20, x0=edd, method="penalty", lmbda=om)
+for om in lambdas:
+    xb, gb, hist = run(f"3_3_penalty_EDD_lambda{om}.txt", gamma=10, L=20, x0=edd, method="penalty", lmbda=om)
     first = next((h['k'] for h in hist if h['valid']), None)
     frac = sum(not h['valid'] for h in hist[1:]) / max(1, len(hist) - 1)
-    out(f"  omega={om:>6}: first feasible visited at k={first}, returned T={gb}"
+    out(f"  lambda={om:>6}: first feasible visited at k={first}, returned T={gb}"
         f"{' (repaired, no feasible schedule visited)' if first is None else ''}, "
         f"% infeasible={100*frac:.1f}%, iters={len(hist)-1}")
 summary.close()
@@ -108,7 +108,7 @@ summary.close()
 # trimmed copy for the submission -> results/
 # ---------------------------------------------------------------------------------------
 best32 = f"3_2_best_gamma{bg}_L{bL}.txt"
-copies = [  # (file in outputs/, name in results/, description for INDEX.txt)
+copies = [ 
     ("summary.txt", "summary.txt", "all tables reported in the PDF (3.1, 3.2, 3.3)"),
     ("3_1_rejection_K10.txt", None, "Q3.1  rejection, gamma=10, L=20, K=10"),
     ("3_1_rejection_K100.txt", None, "Q3.1  K=100"),
@@ -119,10 +119,10 @@ for g, L in EXAMPLES_32:
     copies.append((f"3_2_grid/gamma{g}_L{L}.txt", f"3_2_gamma{g}_L{L}.txt",
                    f"Q3.2  gamma={g}, L={L}: best {grid[(g, L)][1]}, "
                    f"{len(grid[(g, L)][2]) - 1} iterations run"))
-for om in PLOT_OMEGAS:
-    copies.append((f"3_3_penalty_omega{om}.txt", None, f"Q3.3  penalty, omega={om} (plotted)"))
-copies.append((f"3_3_penalty_EDD_omega{EDD_OMEGA}.txt", None,
-               f"Q3.3  penalty from the EDD initial schedule, omega={EDD_OMEGA}"))
+for om in PLOT_LAMBDAS:
+    copies.append((f"3_3_penalty_lambda{om}.txt", None, f"Q3.3  penalty, lambda={om} (plotted)"))
+copies.append((f"3_3_penalty_EDD_lambda{EDD_LAMBDA}.txt", None,
+               f"Q3.3  penalty from the EDD initial schedule, lambda={EDD_LAMBDA}"))
 copies.append(("3_3_convergence.png", None, "Q3.3  best feasible total tardiness vs iteration"))
 
 for src, dst, _ in copies:
