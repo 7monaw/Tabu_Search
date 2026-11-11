@@ -3,23 +3,20 @@
 
 ## Requirements
 - Python 3.8+. 
-- `pip install -r requirements.txt` (`matplotlib` is needed only for the plot in `experiments.py`)
+- `pip install -r requirements.txt` (`matplotlib` is needed only for the plot in `main.ipynb`)
 
 ## Files
 | File | Purpose |
 |---|---|
 | `tabu_search.py` | The algorithm: `preprocessing` (adjacency lists, job data), `initialise_schedule` (valid start via topological sort), `tardiness`, `check_precedence` (validity and penalised cost), `repair_schedule`, `tabu(...)` with `method='rejection'` or `'penalty'`, and the Appendix A data. |
-| `test_tabu.py` | Sanity checks for the code against the lecture example and Tutorial 3. |
-| `experiments.py` | Questions 3.1–3.3 + writes `outputs/` and `results/`. |
-| `outputs/` and `results/` | Results of the experiments. Format: indented "cand" lines = neighbours examined in cyclic order (swap, schedule, cost, delta = cost(current) - cost(neighbour), tabu?, decision); "k=" lines = accepted solution x_k with its cost, validity, best feasible total tardiness so far (g_best) and tabu list T.
-For penalty runs "cost" is the penalised cost g'(S); g_best is always plain total tardiness.|
+| `main.ipynb` | Test cases importing tabu search algorithm from `tabu_search.py`. Questions 3.1–3.3 + writes `outputs/` and `results/`. Sanity checks for the code against the lecture example and Tutorial 3. |
+| `outputs/` and `results/` | Results of the experiments. Format: indented "cand" lines = neighbours examined in cyclic order (swap, schedule, cost, delta = cost(current) - cost(neighbour), tabu?, decision); "k=" lines = accepted solution x_k with its cost, validity, best feasible total tardiness so far (g_best) and tabu list T. For penalty runs "cost" is the penalised cost g'(S); g_best is always plain total tardiness. |
 
 
 ## Usage
 ```bash
-python test_tabu.py        # lecture + Tutorial 3 examples 
-python experiments.py    # regenerates outputs/ 
-python tabu_search.py    # quick test for question 3.1 with K = 10
+python tabu_search.py               # initialise tabu search algorithm  
+jupyter execute main.ipynb          # lecture + Tutorial 3 examples. 3.1-3.3 answers
 ```
 
 Tabu search usage on any data:
