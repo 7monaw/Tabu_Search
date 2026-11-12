@@ -154,14 +154,14 @@ def tabu(p: List[int],
         d: List[int], 
         prec: List[Tuple[int, int]], 
         K: int, 
-        gamma: int, 
-        lmbda: int, 
+        gamma: float, 
+        lmbda: float, 
         L: int, 
         x0: List[int] = None, 
         method = 'rejection', 
-        w: int = None, 
+        w: float = None, 
         verbose: bool = False
-    ) -> List[int]:
+    ) -> Tuple[List[int], float, List[Dict]]:
     '''
         Compute the best schedule based on tabu search.
 
