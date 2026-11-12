@@ -1,0 +1,56 @@
+=== 3.1 Rejection method, L=20, gamma=10, K=10,100,1000, forced x0
+x0 = [1,2,3,6,13,5,12,17,7,4,10,14,9,8,18,21,11,16,15,20,19,22,24,23,25,26,27,28,29,30,31], g(x0) = 341
+K=   10: best tardiness 335, iterations run 10, best schedule [1,3,6,13,5,12,17,7,4,10,14,2,9,8,18,21,11,16,15,20,19,22,24,23,25,26,27,28,29,30,31]
+   new-best iterations: k=10:335
+K=  100: best tardiness 214, iterations run 100, best schedule [1,5,7,3,10,14,12,2,8,6,13,18,16,9,4,11,20,21,23,22,26,15,24,28,19,25,17,27,29,30,31]
+   new-best iterations: k=10:335, k=15:333, k=16:323, k=19:305, k=20:300, k=38:290, k=39:272, k=47:267, k=50:264, k=52:259, k=53:249, k=61:244, k=64:243, k=68:235, k=69:229, k=70:224, k=75:222, k=87:220, k=89:218, k=94:217, k=98:214
+K= 1000: best tardiness 188, iterations run 1000, best schedule [1,7,6,13,14,2,3,5,8,9,12,4,10,16,18,21,23,11,20,17,22,26,15,19,25,27,29,24,28,30,31]
+   new-best iterations: k=10:335, k=15:333, k=16:323, k=19:305, k=20:300, k=38:290, k=39:272, k=47:267, k=50:264, k=52:259, k=53:249, k=61:244, k=64:243, k=68:235, k=69:229, k=70:224, k=75:222, k=87:220, k=89:218, k=94:217, k=98:214, k=110:211, k=112:208, k=121:205, k=324:204, k=325:199, k=329:196, k=401:195, k=698:189, k=877:188
+
+=== 3.2 Rejection method, K=1000, grid over gamma and L (forced x0)
+L \ gamma       0      1      2      5     10     20     30     50    100
+        1     257    158    158    170    198    260    260    260    260
+        5     257    158    158    170    198    260    260    260    260
+       10     257    158    158    170    198    260    260    260    260
+       20     257    158    158    158    188    196    196    196    196
+       30     257    158    158    163    196    194    194    194    194
+       50     257    173    173    173    184    184    184    184    184
+      100     257    173    173    173    184    184    184    184    184
+iterations actually run (<1000 means stopped: no admissible neighbour):
+        1      14   1000   1000   1000   1000   1000   1000   1000   1000
+        5      14   1000   1000   1000   1000   1000   1000   1000   1000
+       10      14   1000   1000   1000   1000   1000   1000   1000   1000
+       20      14    255    255    303   1000   1000   1000   1000   1000
+       30      14    214    214    198   1000   1000   1000   1000   1000
+       50      14     95     95     95    101    101    101    101    101
+      100      14     92     92     92     98     98     98     98     98
+Best: gamma=1, L=1, tardiness=158, schedule=[1,7,14,6,5,13,18,21,3,4,23,11,10,16,20,22,26,2,12,17,8,9,15,19,25,27,29,24,28,30,31]
+
+=== 3.3 Penalty method, L=20, gamma=10, K=1000, forced x0
+ lambda  best feasible T  % iters infeasible  iters run
+    0.5              341              100.0%       1000
+      1              341              100.0%       1000
+      2              341              100.0%       1000
+      5              341              100.0%       1000
+     10              300               98.0%       1000
+     12              300               98.0%       1000
+     15              184               24.9%       1000
+     18              179                2.5%       1000
+     20              179                2.5%       1000
+     25              188                0.0%       1000
+     50              188                0.0%       1000
+    100              188                0.0%       1000
+
+EDD x0 = [14,26,7,16,23,5,20,29,11,27,4,25,8,30,10,19,15,21,22,28,9,31,12,6,13,18,2,17,1,3,24], g = 0, feasible = False
+  lambda=   0.5: first feasible visited at k=None, returned T=315 (repaired, no feasible schedule visited), % infeasible=100.0%, iters=1000
+  lambda=     1: first feasible visited at k=None, returned T=315 (repaired, no feasible schedule visited), % infeasible=100.0%, iters=1000
+  lambda=     2: first feasible visited at k=None, returned T=232 (repaired, no feasible schedule visited), % infeasible=100.0%, iters=1000
+  lambda=     5: first feasible visited at k=None, returned T=198 (repaired, no feasible schedule visited), % infeasible=100.0%, iters=1000
+  lambda=    10: first feasible visited at k=None, returned T=256 (repaired, no feasible schedule visited), % infeasible=100.0%, iters=1000
+  lambda=    12: first feasible visited at k=636, returned T=232, % infeasible=98.2%, iters=1000
+  lambda=    15: first feasible visited at k=619, returned T=189, % infeasible=70.2%, iters=1000
+  lambda=    18: first feasible visited at k=528, returned T=195, % infeasible=65.8%, iters=1000
+  lambda=    20: first feasible visited at k=528, returned T=215, % infeasible=67.0%, iters=1000
+  lambda=    25: first feasible visited at k=502, returned T=179, % infeasible=50.1%, iters=1000
+  lambda=    50: first feasible visited at k=502, returned T=179, % infeasible=50.1%, iters=1000
+  lambda=   100: first feasible visited at k=502, returned T=179, % infeasible=50.1%, iters=1000
