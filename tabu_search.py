@@ -109,7 +109,7 @@ def tardiness(x: List[int], job_info: Dict[int, Dict[str, int]]) -> int:
 
 
 
-def check_precedence(x: List[int], prec: List[Tuple[int, int]], lmbda = int, job_info = Dict[int, Dict[str, int]], method: str = 'rejection'
+def check_precedence(x: List[int], prec: List[Tuple[int, int]], lmbda: int, job_info: Dict[int, Dict[str, int]], method: str = 'rejection'
                      ) -> Tuple[bool, float]:
     '''
         Check if precedence of a schedule violates the rules.
